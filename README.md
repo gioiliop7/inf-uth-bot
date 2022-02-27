@@ -4,8 +4,8 @@ I tried to solve the problem by making a discord bot.
 
 The bot sends the last announcement by scrapping the html from main page of the university.
 
-Try the bot on your server.
-Join the discord server of inf-uth here
+[Try](https://discord.com/developers/applications/947518894749413436/oauth2/url-generator) the bot on your server.
+[Join](https://discord.gg/SrcQu5t) the discord server of inf-uth here
 
 ## Installation
 
