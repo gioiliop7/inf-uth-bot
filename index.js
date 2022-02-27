@@ -17,7 +17,7 @@ function axiosReq(url) {
   return dataPromise;
 }
 
-let scheduledMessage = new cron.CronJob("00 57 * * * *", () => {
+let scheduledMessage = new cron.CronJob("00 00 * * * *", () => {
   // This is runs every hour
   // inside a command, event listener, etc.
 
@@ -74,7 +74,7 @@ let scheduledMessage = new cron.CronJob("00 57 * * * *", () => {
           )
           .setTimestamp()
           .setFooter({
-            text: "Created with <3 by Gioiliop",
+            text: "Created with ❤️ by Gioiliop",
           });
         client.channels.cache
           .get(channelID)
