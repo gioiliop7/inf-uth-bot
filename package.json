@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
-  "author": "",
+  "author": "Giorgos Iliopoulos",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.26.0",
