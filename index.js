@@ -17,7 +17,7 @@ function axiosReq(url) {
   return dataPromise;
 }
 
-let scheduledMessage = new cron.CronJob("00 00 * * * *", () => {
+let scheduledMessage = new cron.CronJob("00 10 * * * *", () => {
   // This is runs every hour
   // inside a command, event listener, etc.
 
