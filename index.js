@@ -86,6 +86,7 @@ let scheduledMessage = new cron.CronJob("00 30 * * * *", () => {
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  client.user.setActivity("inf.teiste.gr Announcements", { type: "WATCHING" });
   scheduledMessage.start();
 });
 
