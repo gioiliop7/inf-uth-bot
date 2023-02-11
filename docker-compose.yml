@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  bot:
+    build: .
+    environment:
+      - CLIENT_TOKEN
+      - CHANNEL_ID
+    ports:
+      - "8080:3000"
