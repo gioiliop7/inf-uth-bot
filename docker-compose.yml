@@ -8,3 +8,4 @@ services:
       - CHANNEL_ID
     ports:
       - "8080:3000"
+    restart: always
