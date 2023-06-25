@@ -1,5 +1,5 @@
-require("dotenv").config(); //initialize dotenv
-const Discord = require("discord.js"); //import discord.js
+require("dotenv").config(); // initialize dotenv
+const Discord = require("discord.js"); // import discord.js
 const cheerio = require("cheerio");
 const axios = require("axios");
 const channelID = process.env.CHANNEL_ID;
@@ -33,54 +33,66 @@ let scheduledMessage = new cron.CronJob("* * * * *", () => {
     let titles = [];
     let links = [];
     let announcements = [];
-    axiosReq(inf_teiste_page).then((response) => {
-      let $ = cheerio.load(response.data);
-      let news_items = $(".news-title");
-      $(news_items).each(function (e) {
-        let children = $(this);
-        let announcement = $(children).text().trim();
-        titles.push(announcement);
-      });
-      let news_links = $(".news-title a");
-      $(news_links).each(function (e) {
-        let link = $(this).attr("href");
-        links.push(link);
-      });
-
-      for (let i = 0; i < titles.length; i++) {
-        for (let j = 0; j < links.length; j++) {
-          if (i == j) {
-            let announcementOBJ = {
-              title: titles[j],
-              link: links[j],
-            };
-            announcements.push(announcementOBJ);
-          }
-        }
-      }
-      the_first_announcement = announcements[0];
-      firstAnnouncementTitle = the_first_announcement.title;
-      firstAnnouncementLink = the_first_announcement.link;
-      if (firstAnnouncementTitle != title) {
-        const announcementEmbed = new Discord.MessageEmbed()
-          .setColor("#983346")
-          .setTitle(firstAnnouncementTitle)
-          .setURL(firstAnnouncementLink)
-          .setAuthor({
-            name: "INF-UTH BOT",
-          })
-          .setThumbnail(
-            "https://www.uth.gr/sites/default/files/contents/logos/UTH-logo-text-greek.jpg"
-          )
-          .setTimestamp()
-          .setFooter({
-            text: "Created with ❤️ by Gioiliop",
+    try {
+      axiosReq(inf_teiste_page)
+        .then((response) => {
+          let $ = cheerio.load(response.data);
+          let news_items = $(".news-title");
+          $(news_items).each(function (e) {
+            let children = $(this);
+            let announcement = $(children).text().trim();
+            titles.push(announcement);
           });
-        client.channels.cache
-          .get(channelID)
-          .send({ embeds: [announcementEmbed] });
-      }
-    });
+          let news_links = $(".news-title a");
+          $(news_links).each(function (e) {
+            let link = $(this).attr("href");
+            links.push(link);
+          });
+
+          for (let i = 0; i < titles.length; i++) {
+            for (let j = 0; j < links.length; j++) {
+              if (i == j) {
+                let announcementOBJ = {
+                  title: titles[j],
+                  link: links[j],
+                };
+                announcements.push(announcementOBJ);
+              }
+            }
+          }
+          the_first_announcement = announcements[0];
+          firstAnnouncementTitle = the_first_announcement.title;
+          firstAnnouncementLink = the_first_announcement.link;
+          if (firstAnnouncementTitle != title) {
+            const announcementEmbed = new Discord.MessageEmbed()
+              .setColor("#983346")
+              .setTitle(firstAnnouncementTitle)
+              .setURL(firstAnnouncementLink)
+              .setAuthor({
+                name: "INF-UTH BOT",
+              })
+              .setThumbnail(
+                "https://www.uth.gr/sites/default/files/contents/logos/UTH-logo-text-greek.jpg"
+              )
+              .setTimestamp()
+              .setFooter({
+                text: "Created with ❤️ by Gioiliop",
+              });
+            client.channels.cache
+              .get(channelID)
+              .send({ embeds: [announcementEmbed] });
+          }
+        })
+        .catch((error) => {
+          if (error.code === "EAI_AGAIN") {
+            console.error("Error: Failed to resolve DNS for inf.teiste.gr");
+            return; // Stop execution if DNS resolution fails for inf.teiste.gr
+          }
+          throw error; // Re-throw any other errors
+        });
+    } catch (error) {
+      console.error("Error code:", error);
+    }
   });
 });
 
@@ -90,5 +102,5 @@ client.on("ready", () => {
   scheduledMessage.start();
 });
 
-//make sure this line is the last line
-client.login(process.env.CLIENT_TOKEN); //login bot using token
+// make sure this line is the last line
+client.login(process.env.CLIENT_TOKEN); // login bot using token
